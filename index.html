@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Realismo_Sucio - Libro I - DANIEL REMESEIRO</title>
+  <style>
+    /* 1. CONFIGURACIÓN GLOBAL DE PÁGINA */
+    @page {
+      size: A4 portrait;
+      margin: 0;
+    }
+
+    * {
+      box-sizing: border-box;
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      font-family: "Georgia", "Didot", serif;
+      background-color: #ffffff;
+      -webkit-font-smoothing: antialiased;
+      scroll-behavior: smooth;
+    }
+
+    /* 2. ESTRUCTURA DE PÁGINA A4 (ESCRITORIO) */
+    .a4-page {
+      width: 210mm;
+      height: 297mm;
+      position: relative;
+      overflow: hidden;
+      margin: 0 auto 10mm auto;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      background-color: #fcfcfc;
+      color: #1a1a1a;
+      padding: 10mm 18mm 8mm 18mm;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    }
+
+    /* PORTADA GENERAL DEL LIBRO */
+    .book-cover { text-align: center; margin: auto 0; }
+    .book-project-tag { font-family: "Helvetica Neue", Arial, sans-serif; font-size: 11pt; letter-spacing: 5px; color: #111111; font-weight: 500; margin-bottom: 2mm; }
+    .book-main-title { font-size: 18pt; letter-spacing: 3px; font-weight: 300; color: #111111; margin-bottom: 4mm; }
+    .book-author { font-family: "Helvetica Neue", Arial, sans-serif; font-size: 9.5pt; letter-spacing: 3px; color: #555555; margin-top: 4mm; }
+
+    /* PRÓLOGO EN PORTADA */
+    .book-prologue {
+      font-size: 14pt;
+      line-height: 1.4;
+      font-style: italic;
+      color: #333333;
+      max-width: 155mm;
+      margin: 0 auto;
+      text-align: justify;
+      text-justify: inter-word;
+      padding: 2mm 0;
+      border-top: 1px solid #eaeaea;
+      border-bottom: 1px solid #eaeaea;
+    }
+    
+    .prologue-signature {
+      font-size: 9.5pt;
+      font-style: normal;
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      text-align: right;
+      margin-top: 1.5mm;
+      color: #555555;
+      letter-spacing: 2px;
+    }
+
+    /* ÍNDICE / SUMARIO INTERACTIVO */
+    .index-header { font-family: "Helvetica Neue", Arial, sans-serif; font-size: 9pt; letter-spacing: 3px; color: #111111; border-bottom: 1px solid #111111; padding-bottom: 1.5mm; margin-bottom: 3mm; text-align: center; }
+    .index-list { list-style: none; padding: 0; margin: 0; font-size: 10pt; line-height: 1.45; }
+    .index-item { border-bottom: 1px dotted #eaeaea; padding: 0.6mm 0; }
+    .index-item a { display: flex; justify-content: space-between; text-decoration: none; font-style: italic; color: #2c2c2c; transition: color 0.2s; }
+    .index-item a:hover { color: #000000; font-weight: 500; }
+    .index-item span:last-child { font-family: "Helvetica Neue", Arial, sans-serif; font-style: normal; font-size: 8pt; color: #777777; }
+
+    /* BOTONES Y ACCIONES FLOTANTES */
+    .back-to-index {
+      position: absolute;
+      top: 10mm;
+      right: 18mm;
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 7.5pt;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: #555555;
+      background: #f0f0f0;
+      padding: 1mm 3mm;
+      border-radius: 2px;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: background 0.2s, color 0.2s;
+      z-index: 10;
+    }
+    .back-to-index:hover {
+      background: #111111;
+      color: #ffffff;
+    }
+
+    .print-actions {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 2mm;
+    }
+
+    .print-btn {
+      background-color: #111111;
+      color: #ffffff;
+      padding: 1.5mm 4mm;
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 7.5pt;
+      letter-spacing: 1.5px;
+      border: none;
+      cursor: pointer;
+      text-transform: uppercase;
+      transition: background 0.2s;
+    }
+    .print-btn:hover { background-color: #333333; }
+    .print-btn-secondary { background-color: #666666; }
+
+    /* DISEÑO INTERNO DE OBRA */
+    .cover-header { margin-top: 1mm; text-align: center; position: relative; }
+    .cover-project-tag { font-family: "Helvetica Neue", Arial, sans-serif; font-size: 12pt; letter-spacing: 5px; color: #111111; font-weight: 500; margin-bottom: 0.2mm; }
+    .cover-main-title { font-size: 19pt; letter-spacing: 4px; font-weight: 300; color: #111111; margin-bottom: 0.2mm; }
+    .cover-statement-block { max-width: 155mm; margin: 0 auto; text-align: center; }
+    
+    .cover-poem-body { 
+      font-size: 13pt; 
+      line-height: 1.38; 
+      color: #2c2c2c; 
+      font-style: italic; 
+      text-align: left; 
+      margin: 0 auto; 
+      width: fit-content; 
+      max-width: 100%; 
+    }
+    .cover-poem-body p { margin: 0 0 2.5mm 0; }
+    .haiku-title {
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 12pt;
+      letter-spacing: 2px;
+      font-style: normal;
+      font-weight: 600;
+      color: #111111;
+      margin-bottom: 0.5mm;
+      margin-top: 1.5mm;
+    }
+    .cover-poem-signature { font-size: 8.5pt; line-height: 1.4; color: #2c2c2c; font-style: italic; text-align: left; margin: 1.5mm auto 0 auto; width: fit-content; max-width: 100%; }
+
+    .inner-header { font-family: "Helvetica Neue", Arial, sans-serif; font-size: 8.5pt; letter-spacing: 3px; color: #777777; border-bottom: 1px solid #eaeaea; padding-bottom: 1.5mm; display: flex; justify-content: space-between; align-items: center; position: relative; }
+    .page-number { font-family: "Helvetica Neue", Arial, sans-serif; font-size: 8pt; letter-spacing: 2px; color: #999999; }
+
+    /* CONTENEDOR Y TAMAÑO DE IMAGEN MAXIMIZADO */
+    .image-container { width: 100%; height: 165mm; display: flex; align-items: center; justify-content: center; margin: 1mm 0; position: relative; cursor: pointer; }
+    .image-wrapper { position: relative; display: inline-flex; max-width: 100%; max-height: 100%; }
+    .image-wrapper img { max-width: 100%; max-height: 165mm; object-fit: contain; display: block; }
+    .image-watermark { position: absolute; bottom: 4px; left: 4px; font-family: "Helvetica Neue", Arial, sans-serif; font-size: 7pt; letter-spacing: 1.5px; color: rgba(255, 255, 255, 0.85); text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7); pointer-events: none; background: rgba(0, 0, 0, 0.35); padding: 1px 4px; z-index: 2; }
+
+    .stanza-content { text-align: center; margin-bottom: 0.5mm; }
+    .stanza-number { font-family: "Helvetica Neue", Arial, sans-serif; font-size: 10pt; letter-spacing: 4px; color: #333333; font-weight: 600; margin-bottom: 0.5mm; }
+    .stanza-text { font-size: 12pt; line-height: 1.4; font-style: italic; color: #1a1a1a; letter-spacing: 0.5px; }
+
+    .section-title { font-family: "Helvetica Neue", Arial, sans-serif; font-size: 8.5pt; letter-spacing: 3px; color: #111111; border-bottom: 1px solid #111111; padding-bottom: 1mm; margin-top: 1mm; margin-bottom: 1.5mm; }
+    .curatorial-text { font-size: 12.5pt; line-height: 1.45; color: #2c2c2c; text-align: justify; text-justify: inter-word; margin-bottom: 1mm; }
+    
+    .tech-table { width: 100%; border-collapse: collapse; margin-bottom: 1mm; }
+    .tech-table td { padding: 0.8mm 0; border-bottom: 1px solid #eaeaea; font-size: 8.5pt; }
+    .tech-label { font-family: "Helvetica Neue", Arial, sans-serif; letter-spacing: 1.5px; color: #666666; width: 35%; }
+    .tech-value { color: #1a1a1a; font-size: 9pt; }
+
+    .inner-footer { font-family: "Helvetica Neue", Arial, sans-serif; font-size: 8pt; letter-spacing: 1.5px; color: #777777; text-align: center; border-top: 1px solid #eaeaea; padding-top: 1.5mm; line-height: 1.4; }
+    .inner-footer a { color: #555555; text-decoration: none; }
+
+    /* LIGHTBOX GLOBAL */
+    #lightbox { 
+      position: fixed; 
+      top: 0; 
+      left: 0; 
+      width: 100vw; 
+      height: 100vh; 
+      background-color: rgba(0, 0, 0, 0.92); 
+      display: none; 
+      align-items: center; 
+      justify-content: center; 
+      z-index: 9999; 
+    }
+    #lightbox.active { display: flex; }
+    
+    .lightbox-content-wrapper {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      max-width: 85%;
+      max-height: 85%;
+    }
+
+    #lightbox img { 
+      max-width: 100%; 
+      max-height: 85vh; 
+      object-fit: contain; 
+      display: block;
+    }
+
+    .lightbox-btn { 
+      position: absolute; 
+      background: rgba(0, 0, 0, 0.5); 
+      border: 1px solid rgba(255, 255, 255, 0.3); 
+      color: #ffffff; 
+      font-size: 12pt; 
+      cursor: pointer; 
+      padding: 6px 10px; 
+      user-select: none; 
+      font-family: Arial, sans-serif; 
+      border-radius: 3px;
+      transition: background 0.2s;
+    }
+    .lightbox-btn:hover { background: rgba(255, 255, 255, 0.2); }
+    #lightbox-close { top: -35px; right: 0; font-size: 13pt; padding: 2px 8px; }
+
+    @media screen and (max-width: 768px) {
+      .a4-page {
+        width: 100% !important;
+        height: auto !important;
+        min-height: auto !important;
+        margin: 0 0 15px 0 !important;
+        padding: 15px 15px 12px 15px !important;
+        overflow: visible !important;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      }
+      .image-container {
+        height: 50vh !important;
+        max-height: 300px !important;
+      }
+      .image-wrapper img {
+        max-height: 300px !important;
+      }
+      .back-to-index {
+        position: static !important;
+        display: inline-block;
+        margin-bottom: 10px;
+      }
+    }
+
+    @media print {
+      html, body {
+        width: 100% !important;
+        height: auto !important;
+        background-color: #ffffff !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        overflow: visible !important;
+      }
+
+      .hide-on-print {
+        display: none !important;
+      }
+
+      .a4-page {
+        width: 210mm !important;
+        height: 297mm !important;
+        max-height: 297mm !important;
+        margin: 0 !important;
+        padding: 10mm 18mm 8mm 18mm !important;
+        box-shadow: none !important;
+        overflow: hidden !important;
+        page-break-after: avoid !important;
+        break-after: avoid !important;
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
+      }
+
+      .a4-page + .a4-page {
+        page-break-before: always !important;
+        break-before: page !important;
+      }
+
+      .print-actions,
+      .back-to-index,
+      #lightbox {
+        display: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- PÁGINA 1: PORTADA GENERAL -->
+  <div class="a4-page" id="portada">
+    <a href="#sumario" class="back-to-index">▲ Índice</a>
+    <div></div>
+    <div class="book-cover">
+      <div class="book-project-tag">PROYECTO BULD</div>
+      <div class="book-main-title">LIBRO I: REALISMO SUCIO</div>
+      
+      <div class="book-prologue">
+        <p>Mira, este libro no viene a salvarle el pellejo a nadie, y menos mal. Lo que hay en estas páginas es el tedio espeso de los martes, ese gris de pasillo de oficina que se te pega a la solapa y la constatación bastante fea de que hacernos viejos consiste, en realidad, en perder los modales y acabar con los zapatos hechos polvo. Remeseiro arma el fotolibro a medias exactas: cincuenta por ciento de texto y cincuenta de imagen, dos cosas que se miran a los ojos sin regalarse los oídos.</p>
+        <p>Las fotos no están ahí para quedar bien en la mesilla. Salen movidas, con el temblor lógico de quien saca la cámara sin apagar el motor del coche o de quien tropieza con la propia prisa. Ese borrón de luz, de árboles batidos por el viento o de asfalto empapado cuenta exactamente lo mismo que el verso: el mareo sordo de abrir los ojos a las siete de la mañana, la inteligencia de los estorninos girando en círculos o el porrazo contra el suelo de la calle.</p>
+        <div class="prologue-signature">Ramón Tejada</div>
+      </div>
+
+      <div class="book-author">DANIEL REMESEIRO</div>
+      <div class="print-actions">
+        <button class="print-btn" onclick="window.print()">Imprimir Libro Completo</button>
+      </div>
+    </div>
+    <div>
+      <div class="inner-footer">PROYECTO BULD · LIBRO I: REALISMO SUCIO<br><a href="mailto:dremeseiro@gmail.com">dremeseiro@gmail.com</a> | WhatsApp | <a href="https://www.danielremeseiro.es" target="_blank">www.danielremeseiro.es</a><br>© DANIEL REMESEIRO · A CORUÑA · Octubre 2026</div>
+    </div>
+  </div>
+
+  <!-- PÁGINA 2: SUMARIO LIBRO I -->
+  <div class="a4-page" id="sumario">
+    <a href="#sumario" class="back-to-index">▲ Índice</a>
+    <div>
+      <div class="index-header">SUMARIO · REALISMO SUCIO - LIBRO I</div>
+      <ul class="index-list">
+        <li class="index-item"><a href="#obra-1"><span>1. Levantarse</span><span>[Página 3]</span></a></li>
+        <li class="index-item"><a href="#obra-2"><span>2. Anticipo</span><span>[Página 6]</span></a></li>
+        <li class="index-item"><a href="#obra-3"><span>3. Caída sin red</span><span>[Página 9]</span></a></li>
+        <li class="index-item"><a href="#obra-4"><span>4. Delgadez</span><span>[Página 12]</span></a></li>
+        <li class="index-item"><a href="#obra-5"><span>5. Dónde tienes la cabeza</span><span>[Página 15]</span></a></li>
+        <li class="index-item"><a href="#obra-6"><span>6. El tornillo en la oreja</span><span>[Página 18]</span></a></li>
+        <li class="index-item"><a href="#obra-7"><span>7. Espesa negrura</span><span>[Página 21]</span></a></li>
+        <li class="index-item"><a href="#obra-8"><span>8. Estornino Murmuration</span><span>[Página 24]</span></a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="inner-footer">PROYECTO BULD · LIBRO I: REALISMO SUCIO<br><a href="mailto:dremeseiro@gmail.com">dremeseiro@gmail.com</a> | WhatsApp | <a href="https://www.danielremeseiro.es" target="_blank">www.danielremeseiro.es</a><br>© DANIEL REMESEIRO · A CORUÑA · Octubre 2026</div>
+    </div>
+  </div>
+
+  <!-- 1. LEVANTARSE (Págs. 3-5) -->
+  <div class="a4-page" id="obra-1" data-obra="obra-1">
+    <a href="#sumario" class="back-to-index">▲ Índice</a>
+    <div class="cover-header">
+      <div style="position: absolute; right: 0; top: -1mm;" class="page-number">Página 3</div>
+      <div class="cover-project-tag">PROYECTO BULD</div>
+      <div class="cover-main-title">LEVANTARSE</div>
+    </div>
+    <div class="cover-statement-block">
+      <div class="cover-poem-body">
+        <p>El primer paso es abrir los ojos y joderse;<br>el segundo, poner un pie en el suelo frío;<br>y el tercero, aguantar el tirón.</p>
+        <p>Al avanzar, te tragas el mareo<br>de otro madrugón de mierda.<br>Lo jodido es la tarea de hoy:<br>volver a doblar el lomo por el dinero de ayer.</p>
+        <p>El día no es ningún experimento.<br>Es una trituradora gris que te mide la paciencia,<br>mientras te callas los dientes<br>y tragas saliva para no mandarlo todo a la mierda.</p><br>
+        <div class="cover-poem-signature">Daniel Remeseiro</div>
+      </div>
+    </div>
+    <div>
+      <div class="inner-footer">PROYECTO BULD · LEVANTARSE<br><a href="mailto:dremeseiro@gmail.com">dremeseiro@gmail.com</a> | WhatsApp | <a href="https://www.danielremeseiro.es" target="_blank">www.danielremeseiro.es</a><br>© DANIEL REMESEIRO · A CORUÑA · Octubre 2026</div>
+    </div>
+  </div>
+
+  <div class="a4-page" data-obra="obra-1">
+    <a href="#sumario" class="back-to-index">▲ Índice</a>
+    <div class="inner-header"><span>LEVANTARSE · OBRA VISUAL</span><span class="page-number">Página 4</span></div>
+    <div class="stanza-content">
+      <div class="stanza-number">LEVANTARSE</div>
+      <div class="stanza-text">El día no es ningún experimento.<br>Es una trituradora gris que te mide la paciencia,<br>mientras te callas los dientes y tragas saliva.</div>
+    </div>
+    <div class="image-container" onclick="openLightboxSingle('levantarse.jpg')">
+      <div class="image-wrapper">
+        <img src="levantarse.jpg" alt="Levantarse" class="gallery-img">
+        <div class="image-watermark">© Daniel Remeseiro</div>
+      </div>
+    </div>
+    <div class="print-actions" style="margin-bottom: 2mm;">
+      <button class="print-btn" onclick="imprimirObraIndividual('obra-1')">Imprimir esta obra</button>
+    </div>
+    <div>
+      <div class="inner-footer">PROYECTO BULD · LEVANTARSE<br><a href="mailto:dremeseiro@gmail.com">dremeseiro@gmail.com</a> | WhatsApp | <a href="https://www.danielremeseiro.es" target="_blank">www.danielremeseiro.es</a><br>© DANIEL REMESEIRO · A CORUÑA · Octubre 2026</div>
+    </div>
+  </div>
+
+  <div class="a4-page" data-obra="obra-1">
+    <a href="#sumario" class="back-to-index">▲ Índice</a>
+    <div>
+      <div class="inner-header"><span>Nota Curatorial y Ficha Técnica</span><span class="page-number">Página 5</span></div>
+      <div class="section-title">NOTA CURATORIAL</div>
+      <div class="curatorial-text">A las siete de la mañana la luz no ilumina, solo molesta. Hay un tipo sentado junto a la ventana con una chaqueta clara y una pantalla en blanco que no promete nada. Desde la calle apenas se ven sombras en un local a oscuras a propósito, porque a esas horas nadie quiere explicaciones.</div><br>
+      <div class="section-title">FICHA TÉCNICA Y ESPECIFICACIONES</div>
+      <table class="tech-table">
+        <tr><td class="tech-label">TÍTULO DE LA OBRA</td><td class="tech-value">PROYECTO BULD · LEVANTARSE</td></tr>
+        <tr><td class="tech-label">ESTRUCTURA</td><td class="tech-value">Obra poético-visual compuesta por texto y Fotografía Documental Urbana</td></tr>
+        <tr><td class="tech-label">UBICACIÓN & AÑO</td><td class="tech-value">A Coruña, Galicia 2026</td></tr>
+      </table><br>
+    </div>
+    <div class="inner-footer">PROYECTO BULD · LEVANTARSE<br><a href="mailto:dremeseiro@gmail.com">dremeseiro@gmail.com</a> | WhatsApp | <a href="https://www.danielremeseiro.es" target="_blank">www.danielremeseiro.es</a><br>© DANIEL REMESEIRO · A CORUÑA · Octubre 2026</div>
+  </div>
+
+  <!-- 2. ANTICIPO (Págs. 6-8) -->
+  <div class="a4-page" id="obra-2" data-obra="obra-2">
+    <a href="#sumario" class="back-to-index">▲ Índice</a>
+    <div class="cover-header">
+      <div style="position: absolute; right: 0; top: -1mm;" class="page-number">Página 6</div>
+      <div class="cover-project-tag">PROYECTO BULD</div>
+      <div class="cover-main-title">ANTICIPO</div>
+    </div>
+    <div class="cover-statement-block">
+      <div class="cover-poem-body">
+        <p>Primero prendieron fuego al monte.<br>Luego nos vendieron<br>la manguera y la foto.</p>
+        <p>Montaron un hipódromo.<br>Y ahora organizan una consulta<br>para elegir el color de los caballos.</p><br>
+        <div class="cover-poem-signature">Daniel Remeseiro</div>
+      </div>
+    </div>
+    <div>
+      <div class="inner-footer">PROYECTO BULD · ANTICIPO<br><a href="mailto:dremeseiro@gmail.com">dremeseiro@gmail.com</a> | WhatsApp | <a href="https://www.danielremeseiro.es" target="_blank">www.danielremeseiro.es</a><br>© DANIEL REMESEIRO · A CORUÑA · Octubre 2026</div>
+    </div>
+  </div>
+
+  <div class="a4-page" data-obra="obra-2">
+    <a href="#sumario" class="back-to-index">▲ Índice</a>
+    <div class="inner-header"><span>ANTICIPO · OBRA VISUAL</span><span class="page-number">Página 7</span></div>
+    <div class="stanza-content">
+      <div class="stanza-number">ANTICIPO</div>
+      <div class="stanza-text">Primero prendieron fuego al monte.<br>Luego nos vendieron la manguera y la foto.</div>
+    </div>
+    <div class="image-container" onclick="openLightboxSingle('anticipo.jpg')">
+      <div class="image-wrapper">
+        <img src="anticipo.jpg" alt="Anticipo" class="gallery-img">
+        <div class="image-watermark">© Daniel Remeseiro</div>
+      </div>
+    </div>
+    <div class="print-actions" style="margin-bottom: 2mm;">
+      <button class="print-btn" onclick="imprimirObraIndividual('obra-2')">Imprimir esta obra</button>
+    </div>
+    <div>
+      <div class="inner-footer">PROYECTO BULD · ANTICIPO<br><a href="mailto:dremeseiro@gmail.com">dremeseiro@gmail.com</a> | WhatsApp | <a href="https://www.danielremeseiro.es" target="_blank">www.danielremeseiro.es</a><br>© DANIEL REMESEIRO · A CORUÑA · Octubre 2026</div>
+    </div>
+  </div>
+
+  <div class="a4-page" data-obra="obra-2">
+    <a href="#sumario" class="back-to-index">▲ Índice</a>
+    <div>
+      <div class="inner-header"><span>Nota Curatorial y Ficha Técnica</span><span class="page-number">Página 8</span></div>
+      <div class="section-title">NOTA CURATORIAL</div>
+      <div class="curatorial-text">Primero prendieron fuego al monte y luego nos vendieron el cenicero. En Anticipo, la fotografía y el texto no están para ponerse estupendos ni para explicar grandes teorías de laboratorio.</div><br>
+      <div class="section-title">FICHA TÉCNICA Y ESPECIFICACIONES</div>
+      <table class="tech-table">
+        <tr><td class="tech-label">TÍTULO DE LA OBRA</td><td class="tech-value">PROYECTO BULD · ANTICIPO</td></tr>
+        <tr><td class="tech-label">UBICACIÓN & AÑO</td><td class="tech-value">A Coruña, Galicia 2026</td></tr>
+      </table><br>
+    </div>
+    <div class="inner-footer">PROYECTO BULD · ANTICIPO<br><a href="mailto:dremeseiro@gmail.com">dremeseiro@gmail.com</a> | WhatsApp | <a href="https://www.danielremeseiro.es" target="_blank">www.danielremeseiro.es</a><br>© DANIEL REMESEIRO · A CORUÑA · Octubre 2026</div>
+  </div>
+
+  <!-- 3. CAÍDA SIN RED (Págs. 9-11) -->
+  <div class="a4-page" id="obra-3" data-obra="obra-3">
+    <a href="#sumario" class="back-to-index">▲ Índice</a>
+    <div class="cover-header">
+      <div style="position: absolute; right: 0; top: -1mm;" class="page-number">Página 9</div>
+      <div class="cover-project-tag">PROYECTO BULD</div>
+      <div class="cover-main-title">CAÍDA SIN RED</div>
+    </div>
+    <div class="cover-statement-block">
+      <div class="cover-poem-body">
+        <div class="haiku-title">Haiku I</div>
+        <p>Red que da refugio,<br>suelo firme en la caída:<br>abrazo de asfalto.</p>
+        <div class="haiku-title">Haiku II</div>
+        <p>Red que te atrapa,<br>pulso hueco de la pantalla:<br>amplifica el golpe.</p>
+        <div class="haiku-title">Haiku III</div>
+        <p>Cae el equilibrio,<br>entre ceros y destellos,<br>nadie amortigua.</p><br>
+        <div class="cover-poem-signature">Daniel Remeseiro</div>
+      </div>
+    </div>
+    <div>
+      <div class="inner-footer">PROYECTO BULD · CAÍDA SIN RED<br><a href="mailto:dremeseiro@gmail.com">dremeseiro@gmail.com</a> | WhatsApp | <a href="https://www.danielremeseiro.es" target="_blank">www.danielremeseiro.es</a><br>© DANIEL REMESEIRO · A CORUÑA · Octubre 2026</div>
+    </div>
+  </div>
+
+  <div class="a4-page" data-obra="obra-3">
+    <a href="#sumario" class="back-to-index">▲ Índice</a>
+    <div class="inner-header"><span>CAÍDA SIN RED · OBRA VISUAL</span><span class="page-number">Página 10</span></div>
+    <div class="stanza-content">
+      <div class="stanza-number">CAÍDA SIN RED</div>
+      <div class="stanza-text">Red que te atrapa,<br>pulso hueco de la pantalla:<br>amplifica el golpe.</div>
+    </div>
+    <div class="image-container" onclick="openLightboxSingle('caida.jpg')">
+      <div class="image-wrapper">
+        <img src="caida.jpg" alt="Caída sin Red" class="gallery-img">
+        <div class="image-watermark">© Daniel Remeseiro</div>
+      </div>
+    </div>
+    <div class="print-actions" style="margin-bottom: 2mm;">
+      <button class="print-btn" onclick="imprimirObraIndividual('obra-3')">Imprimir esta obra</button>
+    </div>
+    <div>
+      <div class="inner-footer">PROYECTO BULD · CAÍDA SIN RED<br><a href="mailto:dremeseiro@gmail.com">dremeseiro@gmail.com</a> | WhatsApp | <a href="https://www.danielremeseiro.es" target="_blank">www.danielremeseiro.es</a><br>© DANIEL REMESEIRO · A CORUÑA · Octubre 2026</div>
+    </div>
+  </div>
+
+  <div class="a4-page" data-obra="obra-3">
+    <a href="#sumario" class="back-to-index">▲ Índice</a>
+    <div>
+      <div class="inner-header"><span>Nota Curatorial y Ficha Técnica</span><span class="page-number">Página 11</span></div>
+      <div class="section-title">NOTA CURATORIAL</div>
+      <div class="curatorial-text">A los críos les prometieron una red y les montaron una trampa con pantalla. Antes, una red servía para lo evidente: para no matarte si fallaba el equilibrio.</div><br>
+      <div class="section-title">FICHA TÉCNICA Y ESPECIFICACIONES</div>
+      <table class="tech-table">
+        <tr><td class="tech-label">TÍTULO DE LA OBRA</td><td class="tech-value">PROYECTO BULD · CAÍDA SIN RED</td></tr>
+        <tr><td class="tech-label">UBICACIÓN & AÑO</td><td class="tech-value">A Coruña, Galicia 2026</td></tr>
+      </table><br>
+    </div>
+    <div class="inner-footer">PROYECTO BULD · CAÍDA SIN RED<br><a href="mailto:dremeseiro@gmail.com">dremeseiro@gmail.com</a> | WhatsApp | <a href="https://www.danielremeseiro.es" target="_blank">www.danielremeseiro.es</a><br>© DANIEL REMESEIRO · A CORUÑA · Octubre 2026</div>
+  </div>
+
+  <!-- 4. DELGADEZ (Págs. 12-14) -->
+  <div class="a4-page" id="obra-4" data-obra="obra-4">
+    <a href="#sumario" class="back-to-index">▲ Índice</a>
+    <div class="cover-header">
+      <div style="position: absolute; right: 0; top: -1mm;" class="page-number">Página 12</div>
+      <div class="cover-project-tag">PROYECTO BULD</div>
+      <div class="cover-main-title">DELGADEZ</div>
+    </div>
+    <div class="cover-statement-block">
+      <div class="cover-poem-body">
+        <p>Conozco a un hombre que pesa 31 kilos.<br>El cuerpo planta cara a la agresión.</p>
+        <p>Quedan zonas que exige defender,<br>atrincherar el espacio exacto<br>donde empezamos a ceder.</p>
+        <p>Esa es la única alarma que queda.</p><br>
+        <div class="cover-poem-signature">Daniel Remeseiro</div>
+      </div>
+    </div>
+    <div>
+      <div class="inner-footer">PROYECTO BULD · DELGADEZ<br><a href="mailto:dremeseiro@gmail.com">dremeseiro@gmail.com</a> | WhatsApp | <a href="https://www.danielremeseiro.es" target="_blank">www.danielremeseiro.es</a><br>© DANIEL REMESEIRO · A CORUÑA · Octubre 2026</div>
+    </div>
+  </div>
+
+  <div class="a4-page" data-obra="obra-4">
+    <a href="#sumario" class="back-to-index">▲ Índice</a>
+    <div class="inner-header"><span>DELGADEZ · OBRA VISUAL</span><span class="page-number">Página 13</span></div>
+    <div class="stanza-content">
+      <div class="stanza-number">DELGADEZ</div>
+      <div class="stanza-text">Quedan zonas que exige defender,<br>atrincherar el espacio exacto<br>donde empezamos a ceder.</div>
+    </div>
+    <div class="image-container" onclick="openLightboxSingle('delgadez.jpg')">
+      <div class="image-wrapper">
+        <img src="delgadez.jpg" alt="Delgadez" class="gallery-img">
+        <div class="image-watermark">© Daniel Remeseiro</div>
+      </div>
+    </div>
+    <div class="print-actions" style="margin-bottom: 2mm;">
+      <button class="print-btn" onclick="imprimirObraIndividual('obra-4')">Imprimir esta obra</button>
+    </div>
+    <div>
+      <div class="inner-footer">PROYECTO BULD · DELGADEZ<br><a href="mailto:dremeseiro@gmail.com">dremeseiro@gmail.com</a> | WhatsApp | <a href="https://www.danielremeseiro.es" target="_blank">www.danielremeseiro.es</a><br>© DANIEL REMESEIRO · A CORUÑA · Octubre 2026</div>
+    </div>
+  </div>
+
+  <div class="a4-page" data-obra="obra-4">
+    <a href="#sumario" class="back-to-index">▲ Índice</a>
+    <div>
+      <div class="inner-header"><span>Nota Curatorial y Ficha Técnica</span><span class="page-number">Página 14</span></div>
+      <div class="section-title">NOTA CURATORIAL</div>
+      <div class="curatorial-text">Treinta y un kilos son un número exacto y sin épica. En Delgadez, el cuerpo deja de ser un refugio para convertirse en un sitio donde la piel y los huesos se ajustan al espacio justo que queda antes de desaparecer.</div><br>
+      <div class="section-title">FICHA TÉCNICA Y ESPECIFICACIONES</div>
+      <table class="tech-table">
+        <tr><td class="tech-label">TÍTULO DE LA OBRA</td><td class="tech-value">PROYECTO BULD · DELGADEZ</td></tr>
+        <tr><td class="tech-label">UBICACIÓN & AÑO</td><td class="tech-value">A Coruña, Galicia 2026</td></tr>
+      </table><br>
+    </div>
+    <div class="inner-footer">PROYECTO BULD · DELGADEZ<br><a href="mailto:dremeseiro@gmail.com">dremeseiro@gmail.com</a> | WhatsApp | <a href="https://www.danielremeseiro.es" target="_blank">www.danielremeseiro.es</a><br>© DANIEL REMESEIRO · A CORUÑA · Octubre 2026</div>
+  </div>
+
+  <!-- 5. ¿DÓNDE TIENES LA CABEZA? (Págs. 15-17) -->
+  <div class="a4-page" id="obra-5" data-obra="obra-5">
+    <a href="#sumario" class="back-to-index">▲ Índice</a>
+    <div class="cover-header">
+      <div style="position: absolute; right: 0; top: -1mm;" class="page-number">Página 15</div>
+      <div class="cover-project-tag">PROYECTO BULD</div>
+      <div class="cover-main-title">¿DÓNDE TIENES LA CABEZA?</div>
+    </div>
+    <div class="cover-statement-block">
+      <div class="cover-poem-body">
+        <p>Un pie marca el ritmo bajo la mesa.<br>Un movimiento simple que despierta a quien mira.</p>
+        <p>Está vestido, pero anda suelto.<br>Como si la cabeza llevara un calcetín<br>y los pensamientos bailaran sin pedir permiso.</p>
+        <p>Nada de grandes ideas.<br>Tocar la tristeza exacta del que busca algo<br>para saber que todavía siente.</p><br>
+        <div class="cover-poem-signature">Daniel Remeseiro</div>
+      </div>
+    </div>
+    <div>
+      <div class="inner-footer">PROYECTO BULD · ¿DÓNDE TIENES LA CABEZA?<br><a href="mailto:dremeseiro@gmail.com">dremeseiro@gmail.com</a> | WhatsApp | <a href="https://www.danielremeseiro.es" target="_blank">www.danielremeseiro.es</a><br>© DANIEL REMESEIRO · A CORUÑA · Octubre 2026</div>
+    </div>
+  </div>
+
+  <div class="a4-page" data-obra="obra-5">
+    <a href="#sumario" class="back-to-index">▲ Índice</a>
+    <div class="inner-header"><span>¿DÓNDE TIENES LA CABEZA? · OBRA VISUAL</span><span class="page-number">Página 16</span></div>
+    <div class="stanza-content">
+      <div class="stanza-number">¿DÓNDE TIENES LA CABEZA?</div>
+      <div class="stanza-text">Nada de grandes ideas.<br>Tocar la tristeza exacta del que busca algo<br>para saber que todavía siente.</div>
+    </div>
+    <div class="image-container" onclick="openLightboxSingle('cabeza.jpg')">
+      <div class="image-wrapper">
+        <img src="cabeza.jpg" alt="¿Dónde tienes la cabeza?" class="gallery-img">
+        <div class="image-watermark">© Daniel Remeseiro</div>
+      </div>
+    </div>
+    <div class="print-actions" style="margin-bottom: 2mm;">
+      <button class="print-btn" onclick="imprimirObraIndividual('obra-5')">Imprimir esta obra</button>
+    </div>
+    <div>
+      <div class="inner-footer">PROYECTO BULD · ¿DÓNDE TIENES LA CABEZA?<br><a href="mailto:dremeseiro@gmail.com">dremeseiro@gmail.com</a> | WhatsApp | <a href="https://www.danielremeseiro.es" target="_blank">www.danielremeseiro.es</a><br>© DANIEL REMESEIRO · A CORUÑA · Octubre 2026</div>
+    </div>
+  </div>
+
+  <div class="a4-page" data-obra="obra-5">
+    <a href="#sumario" class="back-to-index">▲ Índice</a>
+    <div>
+      <div class="inner-header"><span>Nota Curatorial y Ficha Técnica</span><span class="page-number">Página 17</span></div>
+      <div class="section-title">NOTA CURATORIAL</div>
+      <div class="curatorial-text">Un trazo amarillo salta a la comba en medio del ruido negro. En ¿Dónde tienes la cabeza?, el papel y el poema pasan de teorizar sobre la mente para centrarse en el impulso primario.</div><br>
+      <div class="section-title">FICHA TÉCNICA Y ESPECIFICACIONES</div>
+      <table class="tech-table">
+        <tr><td class="tech-label">TÍTULO DE LA OBRA</td><td class="tech-value">PROYECTO BULD · ¿DÓNDE TIENES LA CABEZA?</td></tr>
+        <tr><td class="tech-label">UBICACIÓN & AÑO</td><td class="tech-value">A Coruña, Galicia 2026</td></tr>
+      </table><br>
+    </div>
+    <div class="inner-footer">PROYECTO BULD · ¿DÓNDE TIENES LA CABEZA?<br><a href="mailto:dremeseiro@gmail.com">dremeseiro@gmail.com</a> | WhatsApp | <a href="https://www.danielremeseiro.es" target="_blank">www.danielremeseiro.es</a><br>© DANIEL REMESEIRO · A CORUÑA · Octubre 2026</div>
+  </div>
+
+  <!-- 6. EL TORNILLO EN LA OREJA (Págs. 18-20) -->
+  <div class="a4-page" id="obra-6" data-obra="obra-6">
+    <a href="#sumario" class="back-to-index">▲ Índice</a>
+    <div class="cover-header">
+      <div style="position: absolute; right: 0; top: -1mm;" class="page-number">Página 18</div>
+      <div class="cover-project-tag">PROYECTO BULD</div>
+      <div class="cover-main-title">EL TORNILLO EN LA OREJA</div>
+    </div>
+    <div class="cover-statement-block">
+      <div class="cover-poem-body">
+        <p style="font-size: 10pt; font-style: italic; color: #555555; margin-bottom: 4mm;">«Me hago viejo aprendiendo» — Solón</p>
+        <p>Si la situación no empeora no hay motivo de alarma.<br>Me han entregado la intranquilidad y el temor<br>para siempre: es un alivio.<br>La amenaza a veces es más terrible que el golpe.</p><br>
+        <div class="cover-poem-signature">Daniel Remeseiro</div>
+      </div>
+    </div>
+    <div>
+      <div class="inner-footer">PROYECTO BULD · EL TORNILLO EN LA OREJA<br><a href="mailto:dremeseiro@gmail.com">dremeseiro@gmail.com</a> | WhatsApp | <a href="https://www.danielremeseiro.es" target="_blank">www.danielremeseiro.es</a><br>© DANIEL REMESEIRO · A CORUÑA · Octubre 2026</div>
+    </div>
+  </div>
+
+  <div class="a4-page" data-obra="obra-6">
+    <a href="#sumario" class="back-to-index">▲ Índice</a>
+    <div class="inner-header"><span>EL TORNILLO EN LA OREJA · OBRA VISUAL</span><span class="page-number">Página 19</span></div>
+    <div class="stanza-content">
+      <div class="stanza-number">EL TORNILLO EN LA OREJA</div>
+      <div class="stanza-text">Me han entregado la intranquilidad y el temor<br>para siempre: es un alivio.</div>
+    </div>
+    <div class="image-container" onclick="openLightboxSingle('tornillo.jpg')">
+      <div class="image-wrapper">
+        <img src="tornillo.jpg" alt="El tornillo en la oreja" class="gallery-img">
+        <div class="image-watermark">© Daniel Remeseiro</div>
+      </div>
+    </div>
+    <div class="print-actions" style="margin-bottom: 2mm;">
+      <button class="print-btn" onclick="imprimirObraIndividual('obra-6')">Imprimir esta obra</button>
+    </div>
+    <div>
+      <div class="inner-footer">PROYECTO BULD · EL TORNILLO EN LA OREJA<br><a href="mailto:dremeseiro@gmail.com">dremeseiro@gmail.com</a> | WhatsApp | <a href="https://www.danielremeseiro.es" target="_blank">www.danielremeseiro.es</a><br>© DANIEL REMESEIRO · A CORUÑA · Octubre 2026</div>
+    </div>
+  </div>
+
+  <div class="a4-page" data-obra="obra-6">
+    <a href="#sumario" class="back-to-index">▲ Índice</a>
+    <div>
+      <div class="inner-header"><span>Nota Curatorial y Ficha Técnica</span><span class="page-number">Página 20</span></div>
+      <div class="section-title">NOTA CURATORIAL</div>
+      <div class="curatorial-text">Vivir con la mosca detrás de la oreja es una disciplina que no sale en los manuales de autoayuda. En El tornillo en la oreja, la oveja con chaleco vaquero y mirada bovina resume mejor que un tratado de psicología el estado de las cosas.</div><br>
+      <div class="section-title">FICHA TÉCNICA Y ESPECIFICACIONES</div>
+      <table class="tech-table">
+        <tr><td class="tech-label">TÍTULO DE LA OBRA</td><td class="tech-value">PROYECTO BULD · EL TORNILLO EN LA OREJA</td></tr>
+        <tr><td class="tech-label">UBICACIÓN & AÑO</td><td class="tech-value">A Coruña, Galicia 2026</td></tr>
+      </table><br>
+    </div>
+    <div class="inner-footer">PROYECTO BULD · EL TORNILLO EN LA OREJA<br><a href="mailto:dremeseiro@gmail.com">dremeseiro@gmail.com</a> | WhatsApp | <a href="https://www.danielremeseiro.es" target="_blank">www.danielremeseiro.es</a><br>© DANIEL REMESEIRO · A CORUÑA · Octubre 2026</div>
+  </div>
+
+  <!-- 7. ESPESA NEGRURA (Págs. 21-23) -->
+  <div class="a4-page" id="obra-7" data-obra="obra-7">
+    <a href="#sumario" class="back-to-index">▲ Índice</a>
+    <div class="cover-header">
+      <div style="position: absolute; right: 0; top: -1mm;" class="page-number">Página 21</div>
+      <div class="cover-project-tag">PROYECTO BULD</div>
+      <div class="cover-main-title">ESPESA NEGRURA</div>
+    </div>
+    <div class="cover-statement-block">
+      <div class="cover-poem-body">
+        <p>No oigo nada, no veo nada<br>y lo que veo no lo ve nadie.</p>
+        <p>A los sepultureros les cuesta más<br>enterrar hombres felices.</p><br>
+        <div class="cover-poem-signature">Daniel Remeseiro</div>
+      </div>
+    </div>
+    <div>
+      <div class="inner-footer">PROYECTO BULD · ESPESA NEGRURA<br><a href="mailto:dremeseiro@gmail.com">dremeseiro@gmail.com</a> | WhatsApp | <a href="https://www.danielremeseiro.es" target="_blank">www.danielremeseiro.es</a><br>© DANIEL REMESEIRO · A CORUÑA · Octubre 2026</div>
+    </div>
+  </div>
+
+  <div class="a4-page" data-obra="obra-7">
+    <a href="#sumario" class="back-to-index">▲ Índice</a>
+    <div class="inner-header"><span>ESPESA NEGRURA · OBRA VISUAL</span><span class="page-number">Página 22</span></div>
+    <div class="stanza-content">
+      <div class="stanza-number">ESPESA NEGRURA</div>
+      <div class="stanza-text">A los sepultureros les cuesta más<br>enterrar hombres felices.</div>
+    </div>
+    <div class="image-container" onclick="openLightboxSingle('negrura.jpg')">
+      <div class="image-wrapper">
+        <img src="negrura.jpg" alt="Espesa Negrura" class="gallery-img">
+        <div class="image-watermark">© Daniel Remeseiro</div>
+      </div>
+    </div>
+    <div class="print-actions" style="margin-bottom: 2mm;">
+      <button class="print-btn" onclick="imprimirObraIndividual('obra-7')">Imprimir esta obra</button>
+    </div>
+    <div>
+      <div class="inner-footer">PROYECTO BULD · ESPESA NEGRURA<br><a href="mailto:dremeseiro@gmail.com">dremeseiro@gmail.com</a> | WhatsApp | <a href="https://www.danielremeseiro.es" target="_blank">www.danielremeseiro.es</a><br>© DANIEL REMESEIRO · A CORUÑA · Octubre 2026</div>
+    </div>
+  </div>
+
+  <div class="a4-page" data-obra="obra-7">
+    <a href="#sumario" class="back-to-index">▲ Índice</a>
+    <div>
+      <div class="inner-header"><span>Nota Curatorial y Ficha Técnica</span><span class="page-number">Página 23</span></div>
+      <div class="section-title">NOTA CURATORIAL</div>
+      <div class="curatorial-text">Hay días en los que mirar de frente es una pérdida de tiempo. Lo más sensato es siempre buscar otros caminos por donde no hay nadie a quien mirar.</div><br>
+      <div class="section-title">FICHA TÉCNICA Y ESPECIFICACIONES</div>
+      <table class="tech-table">
+        <tr><td class="tech-label">TÍTULO DE LA OBRA</td><td class="tech-value">PROYECTO BULD · ESPESA NEGRURA</td></tr>
+        <tr><td class="tech-label">UBICACIÓN & AÑO</td><td class="tech-value">A Coruña, Galicia 2026</td></tr>
+      </table><br>
+    </div>
+    <div class="inner-footer">PROYECTO BULD · ESPESA NEGRURA<br><a href="mailto:dremeseiro@gmail.com">dremeseiro@gmail.com</a> | WhatsApp | <a href="https://www.danielremeseiro.es" target="_blank">www.danielremeseiro.es</a><br>© DANIEL REMESEIRO · A CORUÑA · Octubre 2026</div>
+  </div>
+
+  <!-- 8. ESTORNINO MURMURATION (Págs. 24-26) -->
+  <div class="a4-page" id="obra-8" data-obra="obra-8">
+    <a href="#sumario" class="back-to-index">▲ Índice</a>
+    <div class="cover-header">
+      <div style="position: absolute; right: 0; top: -1mm;" class="page-number">Página 24</div>
+      <div class="cover-project-tag">PROYECTO BULD</div>
+      <div class="cover-main-title">MURMURATION</div>
+    </div>
+    <div class="cover-statement-block">
+      <div class="cover-poem-body">
+        <p>Di que no sabes.<br>Esto no es lluvia,<br>ahora lo sabemos.</p>
+        <p>Es hora de salir,<br>salir para entrar.</p>
+        <p>Hay pájaros dando vueltas:<br>son estorninos<br>iniciando el murmullo.</p><br>
+        <div class="cover-poem-signature">Daniel Remeseiro</div>
+      </div>
+    </div>
+    <div>
+      <div class="inner-footer">PROYECTO BULD · MURMURATION<br><a href="mailto:dremeseiro@gmail.com">dremeseiro@gmail.com</a> | WhatsApp | <a href="https://www.danielremeseiro.es" target="_blank">www.danielremeseiro.es</a><br>© DANIEL REMESEIRO · A CORUÑA, GALICIA</div>
+    </div>
+  </div>
+
+  <div class="a4-page" data-obra="obra-8">
+    <a href="#sumario" class="back-to-index">▲ Índice</a>
+    <div class="inner-header"><span>MURMURATION · OBRA VISUAL</span><span class="page-number">Página 25</span></div>
+    <div class="stanza-content">
+      <div class="stanza-number">MURMURATION</div>
+      <div class="stanza-text">Hay pájaros dando vueltas:<br>son estorninos<br>iniciando el murmullo.</div>
+    </div>
+    <div class="image-container" onclick="openLightboxSingle('estornino.jpg')">
+      <div class="image-wrapper">
+        <img src="estornino.jpg" alt="Murmuration" class="gallery-img">
+        <div class="image-watermark">© Daniel Remeseiro</div>
+      </div>
+    </div>
+    <div class="print-actions" style="margin-bottom: 2mm;">
+      <button class="print-btn" onclick="imprimirObraIndividual('obra-8')">Imprimir esta obra</button>
+    </div>
+    <div>
+      <div class="inner-footer">PROYECTO BULD · MURMURATION<br><a href="mailto:dremeseiro@gmail.com">dremeseiro@gmail.com</a> | WhatsApp | <a href="https://www.danielremeseiro.es" target="_blank">www.danielremeseiro.es</a><br>© DANIEL REMESEIRO · A CORUÑA, GALICIA</div>
+    </div>
+  </div>
+
+  <div class="a4-page" data-obra="obra-8">
+    <a href="#sumario" class="back-to-index">▲ Índice</a>
+    <div>
+      <div class="inner-header"><span>Nota Curatorial y Ficha Técnica</span><span class="page-number">Página 26</span></div>
+      <div class="section-title">NOTA CURATORIAL</div>
+      <div class="curatorial-text">Cuando miles de estorninos giran a la vez en el aire, no hay ningún jefe dando órdenes por megafonía. Cada bicho se limita a mirar a los siete que tiene al lado y a copiarles el movimiento sin hacer preguntas.</div><br>
+      <div class="section-title">FICHA TÉCNICA Y ESPECIFICACIONES</div>
+      <table class="tech-table">
+        <tr><td class="tech-label">TÍTULO DE LA OBRA</td><td class="tech-value">PROYECTO BULD · MURMURATION</td></tr>
+        <tr><td class="tech-label">UBICACIÓN & AÑO</td><td class="tech-value">A Coruña, Galicia 2026</td></tr>
+      </table><br>
+      <div class="print-actions">
+        <button class="print-btn" onclick="imprimirObraIndividual('obra-8')">Imprimir esta obra</button>
+        <button class="print-btn print-btn-secondary" onclick="window.print()">Imprimir Libro Completo</button>
+      </div>
+    </div>
+    <div class="inner-footer">PROYECTO BULD · MURMURATION<br><a href="mailto:dremeseiro@gmail.com">dremeseiro@gmail.com</a> | WhatsApp | <a href="https://www.danielremeseiro.es" target="_blank">www.danielremeseiro.es</a><br>© DANIEL REMESEIRO · A CORUÑA, GALICIA</div>
+  </div>
+
+  <!-- LIGHTBOX GLOBAL -->
+  <div id="lightbox">
+    <div class="lightbox-content-wrapper">
+      <button id="lightbox-close" class="lightbox-btn" onclick="closeLightbox()">×</button>
+      <img id="lightbox-img" src="" alt="Ampliada">
+    </div>
+  </div>
+
+  <script>
+    function imprimirObraIndividual(idObra) {
+      const todasLasPaginas = document.querySelectorAll('.a4-page');
+      todasLasPaginas.forEach(pag => {
+        if (pag.getAttribute('data-obra') !== idObra) {
+          pag.classList.add('hide-on-print');
+        }
+      });
+      window.print();
+      todasLasPaginas.forEach(pag => pag.classList.remove('hide-on-print'));
+    }
+
+    function openLightboxSingle(imageSrc) {
+      document.getElementById("lightbox-img").src = imageSrc;
+      document.getElementById("lightbox").classList.add("active");
+    }
+
+    function closeLightbox() { 
+      document.getElementById("lightbox").classList.remove("active"); 
+    } 
+
+    document.addEventListener('keydown', function(event) { 
+      if (event.key === "Escape") { closeLightbox(); } 
+    });
+  </script>
+</body>
+</html>
